@@ -55,6 +55,28 @@ class AlunoController {
       res.status(500).json({ erro: error.message });
     }
   }
+
+  static async deletar(req, res) {
+    try {
+      const { matricula } = req.params;
+
+      if (!matricula) {
+        return res.status(400).json({ mensagem: 'Matrícula não informada' });
+      }
+
+      const aluno = await Aluno.findByPk(matricula);
+
+      if (!aluno) {
+        return res.status(404).json({ mensagem: 'Aluno não encontrado' });
+      }
+
+      await aluno.destroy();
+      res.status(200).json({ mensagem: 'Aluno deletado com sucesso' });
+
+    } catch (error) {
+      res.status(500).json({ erro: error.message });
+    }
+  }
 }
 
 module.exports = AlunoController;
