@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ListaCursos from './components/listarcursos/listarcursos'
-
+import PageCurso from './pages/CursoPage/CursoPage'
+import PageAluno from './pages/AlunoPage/AlunoPage'
 
 function App() {
   
@@ -8,7 +8,9 @@ function App() {
   return (
     <>
       <h1>projeto itegrador font-back</h1>
-      <ListaCursos />
+     <PageCurso />
+     <PageAluno />
+
     </>
   )
 }
