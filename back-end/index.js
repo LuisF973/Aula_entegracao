@@ -1,20 +1,32 @@
 const express = require('express');
 const cors = require('cors');
-const { sequelize } = require('./config/configDB');
-const alunoRoutes = require('./src/modules/aluno/routes/alunoRoutes');
-const cursoRoutes = require('./src/modules/curso/routes/cursoRoutes');
+const {sequelize} = require('./src/config/configDB');
+const cursoRoutes = require('./src/modules/curso/routes/curso.routes');
+const alunoRoutes = require('./src/modules/aluno/routes/aluno.routes');
 require('dotenv').config();
 
-const port = process.env.PORT
+const app = express();
+const port = process.env.PORT;
 
-app.use = express.json();
 app.use(cors());
+app.use(express.json());
 
-app.use('/alunos', alunoRoutes);
 app.use('/cursos', cursoRoutes);
+app.use('/alunos', alunoRoutes);
 
-sequelize.sync().then(()=>{
-    app.listem(port, () => {
+sequelize.sync()
+  .then(async () => {
+    try {
+      await sequelize.authenticate();
+      console.log('Conexão com o banco de dados estabelecida com sucesso.');
+      
+      app.listen(port, () => {
         console.log(`Servidor rodando na porta ${port}`);
-    });
-})
+      });
+    } catch (error) {
+      console.error('Não foi possível conectar ao banco de dados:', error);
+    }
+  })
+  .catch((syncError) => {
+    console.error('Erro ao sincronizar com o banco de dados:', syncError);
+  });

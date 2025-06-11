@@ -1,28 +1,30 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../../config/configDB');
+const { sequelize } = require('../../../config/configDB');
 
+const CursoModel = sequelize.define('Curso', {
 
-const cursoModel = sequelize.define('Curso', {
-
-   cod_curso:{
-    type: DataTypes.STRING(6),
-    allowNull: false,
-    primaryKey: true,
-    validate: {
-      is:{
-        args:/^[A-Z]\d{5}$/,
-        msg: 'O código do curso deve conter 4 letras maiúsculas Deve começar com uma letra seguida de 3 números.'
-      }
+    cod_curso: {
+        type: DataTypes.STRING(4),
+        allowNull: false,
+        primaryKey: true,
+        validate: {
+            is: {
+                args: /^[A-Z]\d{3}$/,
+                msg: 'O código da turma deve ter a primeira letra Maiúscula seguida de 3 digitos númericos'
+            }
+        }
+    },
+    nome: {
+        type: DataTypes.STRING(100),
+        allowNull: false
     }
-   },
+},
+    {
+        tableName: 'curso',
+        createdAt: 'criado_em',
+        updatedAt: 'atualizado_em'
+    },
 
-   nome:{
-    type: DataTypes.STRING(100),
-    allowNull: false,
-   },
+)
 
-
-
-})
-
-module.export = cursoModel
+module.exports = CursoModel;
