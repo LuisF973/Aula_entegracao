@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import ListarAluno from "../../components/listarAluno/ListarAluno";
 import AlunoForm from "../../components/AlunoForm/AlunoForm";
 
+function PageAluno() {
+  const [alunoEditando, setAlunoEditando] = useState(null);
 
+  const handleEditar = (aluno) => {
+    setAlunoEditando(aluno);
+  };
 
-function pageAluno() {
-    return (
-        <>
-      <ListarAluno />
-      <AlunoForm />
-        </>
-    );
+  const handleSalvar = () => {
+    setAlunoEditando(null);
+  };
+
+  return (
+    <>
+      <AlunoForm alunoEditando={alunoEditando} aoSalvar={handleSalvar} />
+      <ListarAluno aoEditar={handleEditar} />
+    </>
+  );
 }
 
-export default pageAluno; // Exporta o componente para ser utilizado em outros lugares
+export default PageAluno;
